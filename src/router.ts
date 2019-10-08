@@ -12,11 +12,13 @@ export default new Router({
       path: '/',
       name: 'dialogList',
       component: Home,
-    },
-    {
-      path: '/:dialogId',
-      name: 'selectedDialog',
-      component: () => import('./views/SelectedDialog.vue'),
+      children: [
+        {
+        path: '/:dialogId',
+        name: 'selectedDialog',
+        component: () => import('./views/SelectedDialog.vue'),
+        },
+      ],
     },
   ],
 });

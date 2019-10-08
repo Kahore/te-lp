@@ -11,3 +11,8 @@ export interface DialogMessage {
   text: string;
   created: string;
 }
+export interface UserClass {
+  author: string;
+  class: string;
+}
+

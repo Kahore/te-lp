@@ -1,6 +1,9 @@
 <template>
-  <div class="hello">
-    <MessageListItem
+  <div class="message-container">
+    <div class="message-container--header">
+      Сообщения <span class="message-container--header-counter">{{conversationCount}} </span>
+    </div>
+    <MessageListPreview
       v-for="message in messages"
       :key="message.id"
       :message="message"/>
@@ -13,28 +16,32 @@ import { Dialog } from '@/store/models';
 
 @Component({
   components: {
-    MessageListItem: () => import('./MessageListItem.vue'),
+    MessageListPreview: () => import('./MessageListPreview.vue'),
   },
 })
 export default class MessageList extends Vue {
   @Prop() private messages!: Dialog[];
+
+  public get conversationCount(): number {
+    return this.messages.length;
+  }
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.message-container{
+  width: 300px;
+  height: 700px;
+  background: #F3F6F8;
+  &--header{
+    padding: 1rem;
+    border-bottom: 1px solid #E9EDF2;
+    &-counter{
+      color: #D2D8DE;
+      margin-left: 0.4rem;
+    }
+  }
 }
 </style>
