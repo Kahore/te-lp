@@ -118,7 +118,7 @@ class MessageModule extends VuexModule {
   }
   @Action({commit: 'addNewMessage'})
   public insertMessage(newMsg: DialogMessage) {
-    // Here we shoul call get request
+    // Here we should call get request
     return newMsg;
   }
 }
