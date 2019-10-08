@@ -1,7 +1,15 @@
 <template>
-  <div class="message-container">
+  <div
+    class="message-container"
+    :class="{'message-container--active':isNavOpen}">
+    <div class="message-container__bar" @click="toggleNav" @blur="toggleNav">
+      <div class="nav-icon">
+        <div></div>
+      </div>
+    </div>
     <div class="message-container--header">
-      Сообщения <span class="message-container--header-counter">{{conversationCount}} </span>
+      <span class="message-container--header-text">Сообщения</span>
+      <span class="message-container--header-counter">{{conversationCount}} </span>
     </div>
     <MessageListPreview
       v-for="message in messages"
@@ -11,6 +19,7 @@
 </template>
 
 <script lang="ts">
+import EventBus from '@/EventBus.js';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Dialog } from '@/store/models';
 
@@ -20,8 +29,22 @@ import { Dialog } from '@/store/models';
   },
 })
 export default class MessageList extends Vue {
+  public isNavOpen: boolean = false;
   @Prop() private messages!: Dialog[];
 
+  public mounted() {
+    EventBus.$on('NAVBAR_TOGGLE', (payload) => {
+      if (this.isNavOpen) {
+        this.toggleNav();
+      }
+    });
+  }
+  /**
+   * toggleNav
+   */
+  public toggleNav() {
+    this.isNavOpen = !this.isNavOpen;
+  }
   public get conversationCount(): number {
     return this.messages.length;
   }
@@ -33,8 +56,11 @@ export default class MessageList extends Vue {
 <style scoped lang="scss">
 .message-container{
   width: 300px;
-  height: 97vh;
+  height: 98vh;
   background: #F3F6F8;
+  &__bar {
+      display: none;
+    }
   &--header{
     padding: 1rem;
     border-bottom: 1px solid #E9EDF2;
@@ -44,4 +70,37 @@ export default class MessageList extends Vue {
     }
   }
 }
+@media (max-width: 576px) {
+  .message-container {
+    width: 30px;
+    &--active {
+      width: 250px;
+      position: absolute;
+    }
+    &--header{
+      &-text {
+        display: none;
+      }
+    }
+    &__bar {
+      display: inline;
+    }
+  }
+  .nav-icon {
+    margin: 0.2rem;
+    width: 25px;
+    &:after, 
+    &:before, 
+    & div {
+       background-color: #fff;
+      border-radius: 3px;
+      content: '';
+      display: block;
+      height: 5px;
+      margin: 7px 0;
+      transition: all .2s ease-in-out; 
+    }
+  }
+}
+  
 </style>

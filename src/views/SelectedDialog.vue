@@ -114,6 +114,9 @@ export default class SelectedDialog extends Vue {
   display: flex;
   &--field {
     width: 93%;
+    border: none;
+    resize: none;
+    border-top: 1px solid #E9EDF2;
     &:disabled {
         background: lighten($color: #B7C0C8, $amount: 30) 
     }
@@ -131,7 +134,18 @@ export default class SelectedDialog extends Vue {
   }
 }
 .chat-container{
-   height: 87vh;
-    overflow-y: scroll;
+  height: 87vh;
+  overflow-y: scroll;
+  margin-bottom: 0.4rem;
 } 
+@media (max-width: 576px) {
+  .message-new__block {
+      &--field {
+    width: 80%;
+    }
+    &--action{
+    width: 20%;
+    }
+  }
+}
 </style>

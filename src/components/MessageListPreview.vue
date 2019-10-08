@@ -3,21 +3,22 @@
     class="preview-message"
     :class = "{'preview-message--active': selectedConvers.id === message.id}"
     @click="loadConversation(message.id)">
-      <router-link class="router"
-        :to="'/'+message.id"
-        >
+      <router-link
+        class="router"
+        :to="'/'+message.id">
         <div class="preview-message--header">
-          <span class="preview-message--header-title">{{message.subject}}</span>
-          <span class="preview-message--header-date">{{message.created}}</span>
+          <span class="preview-message--header-title">{{ message.subject }}</span>
+          <span class="preview-message--header-date">{{ message.created }}</span>
         </div>
         <div class="preview-message--body">
-            {{message.parts[0].text}}
+          {{ message.parts[0].text }}
         </div>
       </router-link>
   </div>
 </template>
 
 <script lang="ts">
+import EventBus from '@/EventBus.js';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Dialog } from '@/store/models';
 import messages from '@/store/modules/message';
@@ -28,12 +29,12 @@ export default class MessageListItem extends Vue {
   public get selectedConvers(): Dialog {
     return messages.conversation;
   }
-
   /**
    * load selected Conversation
    */
   public loadConversation(messageId: number) {
     const msgId = messageId.toString();
+    EventBus.$emit('NAVBAR_TOGGLE');
     messages.loadSingleConversation(msgId);
   }
 }
@@ -69,6 +70,11 @@ export default class MessageListItem extends Vue {
   }
   &:hover {
      @extend .preview-message--active
+  }
+}
+@media (max-width: 576px) {
+  .preview-message {
+    overflow: hidden;
   }
 }
 </style>
