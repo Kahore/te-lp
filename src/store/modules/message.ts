@@ -99,6 +99,10 @@ class MessageModule extends VuexModule {
   public loadingSingle() {
     this.isLoading = !this.isLoading;
   }
+  @Mutation
+  public addNewMessage(newMsg: DialogMessage) {
+    this.selected.parts.push(newMsg);
+  }
   @MutationAction
     public async loadSingleConversation(id: string) {
       this.commit('loadingSingle');
@@ -111,6 +115,11 @@ class MessageModule extends VuexModule {
         this.commit('loadingSingle');
       }, 3000);
       return { selected };
+  }
+  @Action({commit: 'addNewMessage'})
+  public insertMessage(newMsg: DialogMessage) {
+    // Here we shoul call get request
+    return newMsg;
   }
 }
 

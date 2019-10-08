@@ -1,5 +1,8 @@
 <template>
-  <div class="preview-message" @click="loadConversation(message.id)">
+  <div
+    class="preview-message"
+    :class = "{'preview-message--active': selectedConvers.id === message.id}"
+    @click="loadConversation(message.id)">
       <router-link class="router"
         :to="'/'+message.id"
         >
@@ -21,6 +24,11 @@ import messages from '@/store/modules/message';
 @Component
 export default class MessageListItem extends Vue {
   @Prop() private message!: Dialog;
+
+  public get selectedConvers(): Dialog {
+    return messages.conversation;
+  }
+
   /**
    * load selected Conversation
    */
@@ -55,9 +63,12 @@ export default class MessageListItem extends Vue {
     max-height: 2.3rem;
     color: #7D8790;;
   }
-  &:hover {
+  &--active {
     background: white;
     border-left: 2px solid #398BFF;
+  }
+  &:hover {
+     @extend .preview-message--active
   }
 }
 </style>

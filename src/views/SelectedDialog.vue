@@ -17,10 +17,12 @@
           rows="5"
           class="message-new__block--field"
           placeholder="Введите текст"
-          :disabled="isProceed"></textarea>
+          :disabled="isProceed"
+          v-model="newText"></textarea>
         <button
-        :disabled="isProceed"
-          class="message-new__block--action">
+          :disabled="isProceed"
+          class="message-new__block--action"
+          @click.prevent="sendMessage">
           <img
             src="@/assets/Vector.svg"
             alt="send"
@@ -32,7 +34,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { Dialog } from '@/store/models';
+import { Dialog, UserClass, DialogMessage } from '@/store/models';
 import messages from '@/store/modules/message';
 @Component({
   components: {
@@ -42,7 +44,8 @@ import messages from '@/store/modules/message';
 })
 export default class SelectedDialog extends Vue {
   public selectedConversation: Dialog = this.conversation;
-  private isProceed: boolean = false;
+  public isProceed: boolean = false;
+  public newText: string = '';
   /**
    * conversation return selected dialog
    */
@@ -50,7 +53,9 @@ export default class SelectedDialog extends Vue {
     const convers = this._dialogDateReformat(messages.conversation);
     return convers;
   }
-
+  public get getUniqueUser(): UserClass[] {
+    return messages.getUniqueUser;
+  }
   public get isLoading(): boolean {
     return messages.isLoadingConversation;
   }
@@ -58,6 +63,25 @@ export default class SelectedDialog extends Vue {
   public created() {
     const params = this.$route.params.dialogId;
     messages.loadSingleConversation(params);
+  }
+  /**
+   * sendMessage add message to selected collection
+   */
+  public sendMessage(): void {
+    let created: string = new Date().toString();
+    created = this._reformat(created);
+    const newMessage: DialogMessage = {
+      id: this.conversation.parts.length + 1,
+      author: this.getUniqueUser[1].author,
+      text: this.newText,
+      created,
+    };
+    this.isProceed = true;
+    setTimeout(() => {
+      messages.insertMessage(newMessage);
+      this.isProceed = false;
+      this.newText = '';
+    }, 2000);
   }
    /**
     * _dialogDateReformat cast date in maket format

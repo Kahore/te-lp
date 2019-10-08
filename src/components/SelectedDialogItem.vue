@@ -37,7 +37,7 @@ export default class SelectedDialogItem extends Vue {
 
 <style scoped lang="scss">
 .chat {
-  padding: 20px
+  padding-left: 20px;
 }
 .message {
   width: 100%;

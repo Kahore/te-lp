@@ -33,7 +33,7 @@ export default class MessageList extends Vue {
 <style scoped lang="scss">
 .message-container{
   width: 300px;
-  height: 700px;
+  height: 97vh;
   background: #F3F6F8;
   &--header{
     padding: 1rem;

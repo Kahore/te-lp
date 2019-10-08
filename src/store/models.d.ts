@@ -15,4 +15,3 @@ export interface UserClass {
   author: string;
   class: string;
 }
-
