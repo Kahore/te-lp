@@ -1,18 +1,22 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <MessageList :messages="messageList"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-
+import message from '@/store/modules/message';
+import { Dialog, DialogMessage } from '@/store/models';
 @Component({
   components: {
-    HelloWorld,
+    MessageList: () => import('@/components/MessageList.vue'),
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  public messageList: Dialog[] = [];
+  public created() {
+    this.messageList = message.messageList;
+  }
+}
 </script>
