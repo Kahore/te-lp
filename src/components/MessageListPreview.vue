@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import EventBus from '@/EventBus.js';
+import { EventBus } from '@/EventBus.ts';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Dialog } from '@/store/models';
 import messages from '@/store/modules/message';

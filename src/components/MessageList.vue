@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import EventBus from '@/EventBus.js';
+import { EventBus } from '@/EventBus.ts';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Dialog } from '@/store/models';
 
@@ -33,7 +33,7 @@ export default class MessageList extends Vue {
   @Prop() private messages!: Dialog[];
 
   public mounted() {
-    EventBus.$on('NAVBAR_TOGGLE', (payload) => {
+    EventBus.$on('NAVBAR_TOGGLE', () => {
       if (this.isNavOpen) {
         this.toggleNav();
       }
